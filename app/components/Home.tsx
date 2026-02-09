@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export default function MovieSearch() {
   const [title, setTitle] = useState('');
-  const [movie, setMovie] = useState<any>(null);
+  const [movie, setMovie] = useState<string | null>(null);
   const [error, setError] = useState('');
 
   // 1. Function to call the API
@@ -19,7 +19,7 @@ export default function MovieSearch() {
       } else {
         setError(data.error || 'Movie not found');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message);
     }
   };
