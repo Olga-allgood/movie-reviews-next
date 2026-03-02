@@ -1,5 +1,5 @@
 const BASE_URL = 'https://www.omdbapi.com/';
-const API_KEY = process.env.API_KEY!;
+const API_KEY ='525f60ab';
 
 
 export interface MovieSearchItem {
@@ -24,7 +24,7 @@ export interface MovieDetails {
   Rated: string;
   Released: string;
   Runtime: string;
-  Genre: string; // "Action, Drama"
+  Genre: string; 
   Director: string;
   Writer: string;
   Actors: string;
