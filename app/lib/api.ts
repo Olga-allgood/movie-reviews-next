@@ -41,16 +41,10 @@ export interface MovieDetails {
 export async function searchMoviesByTitle(
   title: string,
   page = 1
-): Promise<MovieSearchItem[]> {
+): Promise<MovieSearchResponse> {
   const res = await fetch(
     `${BASE_URL}?apikey=${API_KEY}&s=${encodeURIComponent(title)}&page=${page}`
   );
 
-  const data: MovieSearchResponse = await res.json();
-
-  if (data.Response === 'False') {
-    throw new Error(data.Error || 'No movies found');
-  }
-
-  return data.Search;
+  return res.json()
 }
