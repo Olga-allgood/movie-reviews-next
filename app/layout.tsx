@@ -1,4 +1,4 @@
-import MovieSearch from './components/Home'; // adjust the path if needed
+import "./globals.css"
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

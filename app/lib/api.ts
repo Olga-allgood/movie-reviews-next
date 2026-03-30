@@ -1,3 +1,5 @@
+import MovieChoice from "../components/TwoButtonsMovieShow";
+
 const BASE_URL = 'https://www.omdbapi.com/';
 const API_KEY ='525f60ab';
 
@@ -40,11 +42,23 @@ export interface MovieDetails {
 
 export async function searchMoviesByTitle(
   title: string,
-  page = 1
+  page = 1,
+  type?: string 
 ): Promise<MovieSearchResponse> {
   const res = await fetch(
-    `${BASE_URL}?apikey=${API_KEY}&s=${encodeURIComponent(title)}&page=${page}`
+    `${BASE_URL}?apikey=${API_KEY}&s=${encodeURIComponent(title)}&page=${page}&type=${type}`
   );
 
   return res.json()
+}
+
+export async function getMovieDetails(
+   imdbID: string,
+): Promise<MovieDetails> {
+  const res = await fetch(
+  `${BASE_URL}?apikey=${API_KEY}&i=${imdbID}&plot=full`
+  );  
+
+  return res.json()
+  
 }
