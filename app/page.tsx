@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import MovieForm from './components/MovieForm';
 import MovieCard from './components/MovieCard';
 import MovieModal from './components/MovieModal';
-import TwoButtonsMovieShow from './components/TwoButtonsMovieShow'
+import FilterType from './components/FilterType'
 
 
 import { searchMoviesByTitle, MovieSearchResponse, MovieDetails, MovieSearchItem, getMovieDetails } from './lib/api';
 import Pagination from './components/Pagination';
+import SearchByYear from './components/SearchByYear';
 
 
 export default function HomePage() {
@@ -20,6 +21,7 @@ export default function HomePage() {
     const [movie, setMovie] = useState<MovieDetails | null>(null)
     const [openModal, setModalOpen] = useState(false)
     const [movieChoice, setMovieChoice] = useState('')
+    const [year, setYear] = useState('')
    
 
 
@@ -34,7 +36,7 @@ export default function HomePage() {
         
         async function fetchMovie(){
             setLoading(true)
-            const data = await searchMoviesByTitle(title, page, movieChoice)
+            const data = await searchMoviesByTitle(title, page, movieChoice, year)
             if (data.Response == "True" && data.Search) {
                 const uniqueMovies = data.Search.filter((movie, index, movies)=> movies.findIndex((m)=> m.imdbID==movie.imdbID)==index )
                 setMovies(uniqueMovies)
@@ -54,7 +56,7 @@ export default function HomePage() {
 
         
 
-},[title, page, movieChoice])
+},[title, page, movieChoice, year])
 console.log(openModal)
 
 function updatePage(pageNumber:number){
@@ -82,6 +84,12 @@ function handleMovieChoice(type:string) {
     setMovieChoice(type)
     setPage(1)
 }
+function handleMovieYear(type:string) {
+    setYear(type)
+    setPage(1)
+    console.log(year)
+}
+
 
   return (
     <>
@@ -91,7 +99,8 @@ function handleMovieChoice(type:string) {
       </h1>
 
       <MovieForm onSearch={handleSearch}/>
-      <TwoButtonsMovieShow movieChoice={movieChoice} handleMovieChoice={handleMovieChoice}/>
+      <FilterType value={movieChoice} handleMovieChoice={handleMovieChoice}/>
+      <SearchByYear year={year} handleMovieYear={handleMovieYear}/>
       {loading && <p>Movies loading</p>}
       {error && !loading && <p>{error}</p>}
       {!error && !loading && movies.length>0 && 
